@@ -1,0 +1,1 @@
+export default BASEURL="https://www.swiggy.com/dapi/restaurants/list/v5?lat=17.546077&lng=78.4879809&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING";
