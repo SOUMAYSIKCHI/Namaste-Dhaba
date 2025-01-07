@@ -6,10 +6,12 @@ import Card from "../Components/Card"
 import { RxCross2 } from "react-icons/rx";
 
 const Resturants = () => {
+  const [searched,setSearched] = useState('');
   const {allitems, loading } = useContext(AppContext);
   const [filterItems, setfilterItems] = useState(allitems);
   const [selectedFilters,setSelectedFilters] = useState([]);
   const filters = ["Ratings 4.0+","Fast Delivery","Ratings 4.5+"];
+
   function handleFilterButton(category){
     if(selectedFilters.includes(category)){
         setSelectedFilters((prev)=>{
@@ -55,24 +57,27 @@ const Resturants = () => {
   }, [selectedFilters]);
 
   function changeHandler(e){
-     let ch = e.target.value;
-     ch.toLowerCase();
+     let ch = e.target.value.toLowerCase();
+     
+     setSearched(ch);
+     console.log(searched);
       const newFiltered = allitems.filter((ele)=>{
         let temp = ele.info.name.toLowerCase();
-        if(temp.startsWith(ch) || temp.includes(ch) ){
+        if(temp.startsWith(searched) || temp.includes(searched) ){
           return ele;
         }
         let cuisines  = ele.info.cuisines;
         // if atleast 1 matches in cusine return true 
         //return true to filter arr means include that ele
         const cuisineMatch = cuisines.some((item) => 
-          item.toLowerCase().startsWith(ch) || item.toLowerCase().includes(ch)
+          item.toLowerCase().startsWith(searched) || item.toLowerCase().includes(searched)
         );
         
     
         return cuisineMatch;
 
       })
+
       setfilterItems(newFiltered);
   }
 
@@ -93,6 +98,7 @@ const Resturants = () => {
             <input
             onChange={(e)=>{changeHandler(e)}}
               type="search"
+              value={searched}
               placeholder="Search for restaurants and food"
               className="w-full text-[12px] h-[36px] mr-[1rem]  lg:w-2/5 lg:text-xl lg:h-[46px] border-2 text-black px-4 border-gray-900 rounded-sm focus:outline-none "
             />
